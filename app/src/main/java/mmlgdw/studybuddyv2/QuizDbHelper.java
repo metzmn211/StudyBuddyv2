@@ -83,13 +83,13 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         Question q12 = new Question("What is the capital of Afghanistan?",
                 "Algiers", "Luanda", "Kabul", 3, Question.CATEGORY_GEOGRAPHY);
         addQuestion(q12);
-        Question q13 = new Question("Which is not a continent?",
-                "Europe", "Central America", "Africa", 2, Question.CATEGORY_GEOGRAPHY);
+        Question q13 = new Question("What is the largest continent?",
+                "Antarctica", "Asia", "Africa", 2, Question.CATEGORY_GEOGRAPHY);
         addQuestion(q13);
-        Question q14 = new Question("Which is the tallest mountain in the world?",
+        Question q14 = new Question("What is the tallest mountain in the world?",
                 "Cho Oyu", "K2", "Mount Everest", 3, Question.CATEGORY_GEOGRAPHY);
         addQuestion(q14);
-        Question q15 = new Question("Which direction does the Nile River flow?",
+        Question q15 = new Question("What direction does the Nile River flow?",
                 "North", "East", "South", 1, Question.CATEGORY_GEOGRAPHY);
         addQuestion(q15);
     }
