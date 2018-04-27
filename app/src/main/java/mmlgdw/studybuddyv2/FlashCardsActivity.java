@@ -42,6 +42,7 @@ public class FlashCardsActivity extends AppCompatActivity {
     private int questionCountTotal;
     private Question currentQuestion;
 
+    private boolean answered;
 
     private long backPressedTime;
 
@@ -57,10 +58,6 @@ public class FlashCardsActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.text_view2);
         textView3 = findViewById(R.id.text_view3);
         buttonConfirmNext = findViewById(R.id.button_confirm_next);
-
-        textView1.setVisibility(View.INVISIBLE);
-        textView2.setVisibility(View.INVISIBLE);
-        textView3.setVisibility(View.INVISIBLE);
 
 
         Intent intent = getIntent();
@@ -80,18 +77,25 @@ public class FlashCardsActivity extends AppCompatActivity {
             questionCountTotal = questionList.size();
             questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT);
             currentQuestion = questionList.get(questionCounter - 1);
+            answered = savedInstanceState.getBoolean(KEY_ANSWERED);
 
-
-                showSolution();
+            showSolution();
 
         }
 
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    showSolution();
-                    showNextQuestion();
+                textView1.setVisibility(View.INVISIBLE);
+                textView2.setVisibility(View.INVISIBLE);
+                textView3.setVisibility(View.INVISIBLE);
+                if (!answered) {
 
+                        checkAnswer();
+
+                } else {
+                    showNextQuestion();
+                }
             }
         });
     }
@@ -107,8 +111,9 @@ public class FlashCardsActivity extends AppCompatActivity {
             textView3.setText(currentQuestion.getOption3());
 
             questionCounter++;
-            textViewQuestionCount.setText("Flashcard: " + questionCounter + "/" + questionCountTotal);
-            buttonConfirmNext.setText("Show Answer");
+            textViewQuestionCount.setText("Question: " + questionCounter + "/" + questionCountTotal);
+            answered = false;
+            buttonConfirmNext.setText("Confirm");
 
 
         } else {
@@ -117,6 +122,10 @@ public class FlashCardsActivity extends AppCompatActivity {
     }
 
 
+    private void checkAnswer() {
+        answered = true;
+        showSolution();
+    }
 
     private void showSolution() {
 
@@ -156,11 +165,16 @@ public class FlashCardsActivity extends AppCompatActivity {
         backPressedTime = System.currentTimeMillis();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_QUESTION_COUNT, questionCounter);
+        outState.putBoolean(KEY_ANSWERED, answered);
         outState.putParcelableArrayList(KEY_QUESTION_LIST, questionList);
     }
 }
