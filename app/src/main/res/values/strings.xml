@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">StudyBuddyv2</string>
+    <string name="title_activity_take_quiz">TakeQuiz</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_edit_quiz">EditQuiz</string>
+    <string name="title_activity_view_flashcards">ViewFlashcards</string>
+    <string name="title_activity_edit_flashcards">EditFlashcards</string>
+</resources>
