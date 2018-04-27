@@ -6,4 +6,5 @@
     <string name="title_activity_edit_quiz">EditQuiz</string>
     <string name="title_activity_view_flashcards">ViewFlashcards</string>
     <string name="title_activity_edit_flashcards">EditFlashcards</string>
+    <string name="title_activity_flash_cards">FlashCardsActivity</string>
 </resources>

@@ -46,6 +46,11 @@
             android:label="@string/title_activity_edit_flashcards"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".FlashCardsActivity"
+            android:label="@string/title_activity_flash_cards"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
