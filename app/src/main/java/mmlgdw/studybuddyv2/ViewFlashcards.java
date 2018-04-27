@@ -62,7 +62,7 @@ public class ViewFlashcards extends AppCompatActivity {
     private void startQuiz() {
         String category = spinnerCategory.getSelectedItem().toString();
 
-        Intent intent = new Intent(ViewFlashcards.this, QuizActivity.class);
+        Intent intent = new Intent(ViewFlashcards.this, FlashCardsActivity.class);
         intent.putExtra(EXTRA_CATEGORY, category);
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }

@@ -28,29 +28,20 @@ public class FlashCardsActivity extends AppCompatActivity {
     private static final String KEY_QUESTION_LIST = "keyQuestionList";
 
     private TextView textViewQuestion;
-    private TextView textViewScore;
     private TextView textViewQuestionCount;
     private TextView textViewCategory;
-    private TextView textViewCountDown;
-    private RadioGroup rbGroup;
-    private RadioButton rb1;
-    private RadioButton rb2;
-    private RadioButton rb3;
+    private TextView textView1;
+    private TextView textView2;
+    private TextView textView3;
+
     private Button buttonConfirmNext;
 
-    private ColorStateList textColorDefaultRb;
-    private ColorStateList textColorDefaultCd;
-
-    private CountDownTimer countDownTimer;
-    private long timeLeftInMillis;
 
     private ArrayList<Question> questionList;
     private int questionCounter;
     private int questionCountTotal;
     private Question currentQuestion;
 
-    private int score;
-    private boolean answered;
 
     private long backPressedTime;
 
@@ -60,18 +51,17 @@ public class FlashCardsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flash_cards);
 
         textViewQuestion = findViewById(R.id.text_view_question);
-        textViewScore = findViewById(R.id.text_view_score);
         textViewQuestionCount = findViewById(R.id.text_view_question_count);
         textViewCategory = findViewById(R.id.text_view_category);
-        textViewCountDown = findViewById(R.id.text_view_countdown);
-        rbGroup = findViewById(R.id.radio_group);
-        rb1 = findViewById(R.id.radio_button1);
-        rb2 = findViewById(R.id.radio_button2);
-        rb3 = findViewById(R.id.radio_button3);
+        textView1 = findViewById(R.id.text_view1);
+        textView2 = findViewById(R.id.text_view2);
+        textView3 = findViewById(R.id.text_view3);
         buttonConfirmNext = findViewById(R.id.button_confirm_next);
 
-        textColorDefaultRb = rb1.getTextColors();
-        textColorDefaultCd = textViewCountDown.getTextColors();
+        textView1.setVisibility(View.INVISIBLE);
+        textView2.setVisibility(View.INVISIBLE);
+        textView3.setVisibility(View.INVISIBLE);
+
 
         Intent intent = getIntent();
         String category = intent.getStringExtra(TakeQuiz.EXTRA_CATEGORY);
@@ -90,125 +80,54 @@ public class FlashCardsActivity extends AppCompatActivity {
             questionCountTotal = questionList.size();
             questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT);
             currentQuestion = questionList.get(questionCounter - 1);
-            score = savedInstanceState.getInt(KEY_SCORE);
-            timeLeftInMillis = savedInstanceState.getLong(KEY_MILLIS_LEFT);
-            answered = savedInstanceState.getBoolean(KEY_ANSWERED);
 
-            if (!answered) {
-                startCountDown();
-            } else {
-                updateCountDownText();
+
                 showSolution();
-            }
+
         }
 
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!answered) {
-                    if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked()) {
-                        checkAnswer();
-                    } else {
-                        Toast.makeText(FlashCardsActivity.this, "Please select an answer", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
                     showNextQuestion();
-                }
+
             }
         });
     }
 
     private void showNextQuestion() {
-        rb1.setTextColor(textColorDefaultRb);
-        rb2.setTextColor(textColorDefaultRb);
-        rb3.setTextColor(textColorDefaultRb);
-        rbGroup.clearCheck();
 
         if (questionCounter < questionCountTotal) {
             currentQuestion = questionList.get(questionCounter);
 
             textViewQuestion.setText(currentQuestion.getQuestion());
-            rb1.setText(currentQuestion.getOption1());
-            rb2.setText(currentQuestion.getOption2());
-            rb3.setText(currentQuestion.getOption3());
+            textView1.setText(currentQuestion.getOption1());
+            textView2.setText(currentQuestion.getOption2());
+            textView3.setText(currentQuestion.getOption3());
 
             questionCounter++;
-            textViewQuestionCount.setText("Question: " + questionCounter + "/" + questionCountTotal);
-            answered = false;
-            buttonConfirmNext.setText("Confirm");
+            textViewQuestionCount.setText("Flashcard: " + questionCounter + "/" + questionCountTotal);
+            buttonConfirmNext.setText("Show Answer");
 
-            timeLeftInMillis = COUNTDOWN_IN_MILLIS;
-            startCountDown();
+
         } else {
             finishQuiz();
         }
     }
 
-    private void startCountDown() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
 
-            @Override
-            public void onFinish() {
-                timeLeftInMillis = 0;
-                updateCountDownText();
-                checkAnswer();
-            }
-        }.start();
-    }
-
-    private void updateCountDownText() {
-        int minutes = (int) (timeLeftInMillis / 1000) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
-
-        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
-        textViewCountDown.setText(timeFormatted);
-
-        if (timeLeftInMillis < 10000) {
-            textViewCountDown.setTextColor(Color.RED);
-        } else {
-            textViewCountDown.setTextColor(textColorDefaultCd);
-        }
-    }
-
-    private void checkAnswer() {
-        answered = true;
-
-        countDownTimer.cancel();
-
-        RadioButton rbSelected = findViewById(rbGroup.getCheckedRadioButtonId());
-        int answerNr = rbGroup.indexOfChild(rbSelected) + 1;
-
-        if (answerNr == currentQuestion.getAnswerNr()) {
-            score++;
-            textViewScore.setText("Score: " + score);
-        }
-
-        showSolution();
-    }
 
     private void showSolution() {
-        rb1.setTextColor(Color.RED);
-        rb2.setTextColor(Color.RED);
-        rb3.setTextColor(Color.RED);
 
         switch (currentQuestion.getAnswerNr()) {
             case 1:
-                rb1.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 1 is correct");
+                textView1.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                rb2.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 2 is correct");
+                textView2.setVisibility(View.VISIBLE);
                 break;
             case 3:
-                rb3.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 3 is correct");
+                textView3.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -221,7 +140,6 @@ public class FlashCardsActivity extends AppCompatActivity {
 
     private void finishQuiz() {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, resultIntent);
         finish();
     }
@@ -237,21 +155,11 @@ public class FlashCardsActivity extends AppCompatActivity {
         backPressedTime = System.currentTimeMillis();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_SCORE, score);
         outState.putInt(KEY_QUESTION_COUNT, questionCounter);
-        outState.putLong(KEY_MILLIS_LEFT, timeLeftInMillis);
-        outState.putBoolean(KEY_ANSWERED, answered);
         outState.putParcelableArrayList(KEY_QUESTION_LIST, questionList);
     }
 }
