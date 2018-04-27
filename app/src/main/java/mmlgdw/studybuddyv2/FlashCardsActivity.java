@@ -89,6 +89,7 @@ public class FlashCardsActivity extends AppCompatActivity {
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    showSolution();
                     showNextQuestion();
 
             }
