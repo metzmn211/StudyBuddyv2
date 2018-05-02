@@ -18,12 +18,8 @@ import java.util.Collections;
 import java.util.Locale;
 
 public class FlashCardsActivity extends AppCompatActivity {
-    public static final String EXTRA_SCORE = "extraScore";
-    private static final long COUNTDOWN_IN_MILLIS = 30000;
 
-    private static final String KEY_SCORE = "keyScore";
     private static final String KEY_QUESTION_COUNT = "keyQuestionCount";
-    private static final String KEY_MILLIS_LEFT = "keyMillisLeft";
     private static final String KEY_ANSWERED = "keyAnswered";
     private static final String KEY_QUESTION_LIST = "keyQuestionList";
 
