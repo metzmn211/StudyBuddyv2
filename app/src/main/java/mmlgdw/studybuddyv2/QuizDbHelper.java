@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import mmlgdw.studybuddyv2.QuizContract.*;
 
@@ -103,6 +104,26 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         cv.put(QuestionsTable.COLUMN_ANSWER_NR, question.getAnswerNr());
         cv.put(QuestionsTable.COLUMN_CATEGORY, question.getCategory());
         db.insert(QuestionsTable.TABLE_NAME, null, cv);
+    }
+
+    public void addNewQuestion(String q, String a1, String a2, String a3, int x, String c) {
+        ContentValues cv = new ContentValues();
+        cv.put(QuestionsTable.COLUMN_QUESTION, q);
+        cv.put(QuestionsTable.COLUMN_OPTION1, a1);
+        cv.put(QuestionsTable.COLUMN_OPTION2, a2);
+        cv.put(QuestionsTable.COLUMN_OPTION3, a3);
+        cv.put(QuestionsTable.COLUMN_ANSWER_NR, x);
+        cv.put(QuestionsTable.COLUMN_CATEGORY, c);
+
+        //this is method two to get it done - does not work
+        //db.insert(QuestionsTable.TABLE_NAME, null, cv);
+
+        //this is method three to get it done.
+        String SQL = "INSERT INTO quiz_questions ( QUESTION, OPTION1, OPTION2, OPTION3, ANSWER_NR, CATEGORY ) VALUES ('" + q +
+                "', '" + a1 + "', '" + a2 + "', '" + a3 + "', '" + x + "', '" + c + "');";
+        Log.d("SQL STRING:   ", SQL);
+        db.execSQL(SQL);
+
     }
 
     public ArrayList<Question> getAllQuestions() {
