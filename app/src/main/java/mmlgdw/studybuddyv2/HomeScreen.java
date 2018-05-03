@@ -52,6 +52,7 @@ public class HomeScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        /*
         // Button to go to Edit Flashcards Screen
         Button goToEditFlashcards = (Button) findViewById(R.id.editCards);
         goToEditFlashcards.setOnClickListener(new View.OnClickListener(){
@@ -62,6 +63,7 @@ public class HomeScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        */
         // Return to Login Screen
         Button goToLoginScreen = (Button) findViewById(R.id.logout);
         goToLoginScreen.setOnClickListener(new View.OnClickListener(){
